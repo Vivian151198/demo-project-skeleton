@@ -10,7 +10,7 @@ import testdata.purchasing.ComputerSpec;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class BuyingComputerFlow<T extends ComputerEssentialComponent> {
+public class BuyingComputerFlow<T extends ComputerEssentialComponent> implements ComputerPriceType{
 
     private final WebDriver driver;
     private T essentialCompGeneric;
@@ -32,6 +32,7 @@ public class BuyingComputerFlow<T extends ComputerEssentialComponent> {
         if (essentialCompGeneric == null) {
             throw new RuntimeException("Please call withComputerType to specify computer type!");
         }
+        essentialCompGeneric.unSelectAllDefaultOption();
         ItemDetailsPage detailsPage = new ItemDetailsPage(driver);
 
         // Build Comp specs
@@ -48,11 +49,11 @@ public class BuyingComputerFlow<T extends ComputerEssentialComponent> {
         }
     }
 
-    public void verifyComputerAdded(ComputerDataObject simpleComputer) {
+    public void verifyComputerAdded(ComputerDataObject simpleComputer, double startPrice) {
         ShoppingCartPage shoppingCartPage = new ShoppingCartPage(driver);
-
-        // TODO: need to handle this price
-        final double fixedPrice = 800.0;
+//
+//        // TODO: need to handle this price
+//        final double fixedPrice = 800.0;
 
         // Get additional fee
         double additionalFees = 0.0;
@@ -61,10 +62,21 @@ public class BuyingComputerFlow<T extends ComputerEssentialComponent> {
         additionalFees += ComputerSpec.valueOf(simpleComputer.getHdd()).additionPrice();
 
         // Get Total current price for computer
-        double currentCompPrice = fixedPrice + additionalFees;
+        double currentCompPrice = startPrice + additionalFees;
+
+        //Print all price list for the items
+        double subTotalValue = shoppingCartPage.cartFooterComponent().getCartTotalComponent().priceMap().get(subTotal);
+        double shippingValue = shoppingCartPage.cartFooterComponent().getCartTotalComponent().priceMap().get(shipping);
+        double taxValue = shoppingCartPage.cartFooterComponent().getCartTotalComponent().priceMap().get(tax);
+        System.out.println(subTotalValue);
+        System.out.println(shippingValue);
+        System.out.println(taxValue);
 
         // Compare
-        double itemTotalPrice = shoppingCartPage.shoppingCartItemComp().itemTotalPrice();
+        double itemTotalPrice = subTotalValue + shippingValue + taxValue;
         Assert.assertEquals(itemTotalPrice, currentCompPrice, "[ERR] Total price is not correct!");
+
+        shoppingCartPage.cartFooterComponent().getCartTotalComponent().tosCheckBox().click();
+        shoppingCartPage.cartFooterComponent().getCartTotalComponent().checkoutBtn().click();
     }
 }
