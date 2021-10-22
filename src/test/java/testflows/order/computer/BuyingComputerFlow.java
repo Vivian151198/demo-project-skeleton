@@ -1,8 +1,11 @@
 package testflows.order.computer;
 
-import models.components.product.ComputerEssentialComponent;
+import models.components.checkout.*;
+import models.components.product.computers.ComputerEssentialComponent;
 import models.pages.ItemDetailsPage;
 import models.pages.cart.ShoppingCartPage;
+import models.pages.computer.CheckOutOptionPage;
+import models.pages.computer.CheckOutPage;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import testdata.purchasing.ComputerDataObject;
@@ -78,5 +81,40 @@ public class BuyingComputerFlow<T extends ComputerEssentialComponent> implements
 
         shoppingCartPage.cartFooterComponent().getCartTotalComponent().tosCheckBox().click();
         shoppingCartPage.cartFooterComponent().getCartTotalComponent().checkoutBtn().click();
+    }
+
+    public void checkOut(){
+
+        CheckOutOptionPage checkOutOptionPage = new CheckOutOptionPage(driver);
+        checkOutOptionPage.asGuestOrRegisteredUserComp().checkoutAsGuestBtn().click();
+
+        CheckOutPage checkOutPage = new CheckOutPage(driver);
+        BillingAddressComponent billingAddressComponent = checkOutPage.billingAddressComponent();
+        billingAddressComponent.firstName().sendKeys("Van");
+        billingAddressComponent.lastName().sendKeys("Vo");
+        billingAddressComponent.email().sendKeys("vanminho@gmail.com");
+        billingAddressComponent.selectCountry("United States");
+        billingAddressComponent.selectState("American Samoa");
+        billingAddressComponent.city().sendKeys("Ho Chi Minh");
+        billingAddressComponent.address1().sendKeys("Home");
+        billingAddressComponent.zipCode().sendKeys("1000");
+        billingAddressComponent.phoneNumber().sendKeys("0000000000");
+        billingAddressComponent.continueBtn().click();
+
+        ShippingAddressComponent shippingAddressComponent = checkOutPage.shippingAddressComponent();
+        shippingAddressComponent.continueBtn().click();
+
+        ShippingMethodComponent shippingMethodComponent = checkOutPage.shippingMethodComponent();
+        shippingMethodComponent.continueBtn().click();
+
+        PaymentMethodComponent paymentMethodComponent = checkOutPage.paymentMethodComponent();
+        paymentMethodComponent.continueBtn().click();
+
+        PaymentInformationComponent paymentInformationComponent = checkOutPage.paymentInformationComponent();
+        paymentInformationComponent.continueBtn().click();
+
+        ConfirmOrderComponent confirmOrderComponent = checkOutPage.confirmOrderComponent();
+        confirmOrderComponent.confirmBtn().click();
+        confirmOrderComponent.finishBtn().click();
     }
 }

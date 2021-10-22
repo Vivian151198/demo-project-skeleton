@@ -1,4 +1,4 @@
-package models.components.product;
+package models.components.product.computers;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;

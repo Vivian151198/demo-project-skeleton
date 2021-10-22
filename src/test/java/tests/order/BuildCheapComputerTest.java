@@ -1,7 +1,7 @@
 package tests.order;
 
 import io.qameta.allure.Description;
-import models.components.product.CheapComputerEssentialComponent;
+import models.components.product.computers.CheapComputerEssentialComponent;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -28,6 +28,9 @@ public class BuildCheapComputerTest extends BaseTest implements ComputerPriceTyp
         // Go to Shopping cart Page
         goTo(URL.CART);
         orderingComputerFlow.verifyComputerAdded(computerDataObject, cheapComputerStartPrice);
+
+        //checkout
+        orderingComputerFlow.checkOut();
 
     }
 

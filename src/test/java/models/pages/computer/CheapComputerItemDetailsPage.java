@@ -1,6 +1,6 @@
 package models.pages.computer;
 
-import models.components.product.CheapComputerEssentialComponent;
+import models.components.product.computers.CheapComputerEssentialComponent;
 import models.pages.ItemDetailsPage;
 import org.openqa.selenium.WebDriver;
 
