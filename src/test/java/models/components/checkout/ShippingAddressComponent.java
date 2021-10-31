@@ -13,7 +13,7 @@ public class ShippingAddressComponent {
     public ShippingAddressComponent(WebDriver driver) {
 
         this.driver = driver;
-        this.shippingAddressComp = driver.findElement(By.cssSelector("#checkout-step-shipping"));
+        this.shippingAddressComp = driver.findElement(By.cssSelector("#opc-shipping"));
     }
 
     public WebElement continueBtn() {

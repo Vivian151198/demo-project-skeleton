@@ -18,4 +18,5 @@ public class ShoppingCartItemComponent {
         String itemTotalPriceStr = driver.findElement(itemTotalPriceSel).getText();
         return Double.parseDouble(itemTotalPriceStr);
     }
+
 }

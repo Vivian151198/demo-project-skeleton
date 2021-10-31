@@ -1,5 +1,6 @@
 package testflows.order.computer;
 
+import models.components.cart.CartComponent;
 import models.components.checkout.*;
 import models.components.product.computers.ComputerEssentialComponent;
 import models.pages.ItemDetailsPage;
@@ -67,17 +68,38 @@ public class BuyingComputerFlow<T extends ComputerEssentialComponent> implements
         // Get Total current price for computer
         double currentCompPrice = startPrice + additionalFees;
 
-        //Print all price list for the items
-        double subTotalValue = shoppingCartPage.cartFooterComponent().getCartTotalComponent().priceMap().get(subTotal);
-        double shippingValue = shoppingCartPage.cartFooterComponent().getCartTotalComponent().priceMap().get(shipping);
-        double taxValue = shoppingCartPage.cartFooterComponent().getCartTotalComponent().priceMap().get(tax);
-        System.out.println(subTotalValue);
-        System.out.println(shippingValue);
-        System.out.println(taxValue);
+        //Verify item detail in cart
+        for (CartComponent.CartItemRowsData cartItemRowsData : shoppingCartPage.cartComponent().cartItemRowsData()){
+                Assert.assertTrue(cartItemRowsData.getProductAttribute().contains(ComputerSpec.valueOf(simpleComputer.getProcessorType()).value()), "[ERR] CPU info is not in item details");
+                Assert.assertTrue(cartItemRowsData.getProductAttribute().contains(ComputerSpec.valueOf(simpleComputer.getHdd()).value()), "[ERR] HDD info is not in item details");
+            Assert.assertEquals(cartItemRowsData.getPrice(), currentCompPrice,
+                    "[ERR] Display price is not correct!");
+            String displayProductName = cartItemRowsData.getProductName();
+            String displayProductLink = cartItemRowsData.getProductEditLink();
+            Assert.assertNotNull(displayProductName, "[ERR] Product name is empty");
+            Assert.assertNotNull(displayProductLink, "[ERR] Product link is empty");
+        }
 
-        // Compare
-        double itemTotalPrice = subTotalValue + shippingValue + taxValue;
-        Assert.assertEquals(itemTotalPrice, currentCompPrice, "[ERR] Total price is not correct!");
+        double cardFooterSubTotalPrice = shoppingCartPage.cartFooterComponent().getCartTotalComponent().priceMap().get(subTotal);
+        double cardFooterShippingPrice = shoppingCartPage.cartFooterComponent().getCartTotalComponent().priceMap().get(shipping);
+        double cardFooterTaxPrice = shoppingCartPage.cartFooterComponent().getCartTotalComponent().priceMap().get(tax);
+        double cardFooterTotalPrice = shoppingCartPage.cartFooterComponent().getCartTotalComponent().priceMap().get(total);
+        Assert.assertEquals(cardFooterSubTotalPrice, currentCompPrice, "[ERR] Sub-total is not correct in the cart footer");
+        Assert.assertEquals(cardFooterTotalPrice, cardFooterSubTotalPrice + cardFooterTaxPrice + cardFooterShippingPrice,
+                "[ERR] Total price is not correct in the cart footer");
+
+//
+//        //Print all price list for the items
+//        double subTotalValue = shoppingCartPage.cartFooterComponent().getCartTotalComponent().priceMap().get(subTotal);
+//        double shippingValue = shoppingCartPage.cartFooterComponent().getCartTotalComponent().priceMap().get(shipping);
+//        double taxValue = shoppingCartPage.cartFooterComponent().getCartTotalComponent().priceMap().get(tax);
+//        System.out.println(subTotalValue);
+//        System.out.println(shippingValue);
+//        System.out.println(taxValue);
+//
+//        // Compare
+//        double itemTotalPrice = subTotalValue + shippingValue + taxValue;
+//        Assert.assertEquals(itemTotalPrice, currentCompPrice, "[ERR] Total price is not correct!");
 
         shoppingCartPage.cartFooterComponent().getCartTotalComponent().tosCheckBox().click();
         shoppingCartPage.cartFooterComponent().getCartTotalComponent().checkoutBtn().click();
