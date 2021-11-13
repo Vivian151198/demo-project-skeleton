@@ -12,6 +12,7 @@ public class PaymentMethodComponent {
     private final By creditCardSel = By.cssSelector("[value='Payments.CashOnDelivery']");
     private final By purchaseSel = By.cssSelector("[value='Payments.CashOnDelivery']");
     private final By continueBtnSel = By.cssSelector(".payment-method-next-step-button");
+    private final By paymentMethodDefaultSel = By.cssSelector("#paymentmethod_0");
 
     public PaymentMethodComponent(WebDriver driver) {
         this.driver = driver;
@@ -35,5 +36,9 @@ public class PaymentMethodComponent {
 
     public WebElement continueBtn() {
         return driver.findElement(continueBtnSel);
+    }
+
+    public WebElement paymentMethodDefault() {
+        return driver.findElement(paymentMethodDefaultSel);
     }
 }

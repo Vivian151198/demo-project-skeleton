@@ -3,19 +3,19 @@ package models.components.cart;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class CartComponent extends AbstractCartComponent{
+public class SummaryCartComponent extends AbstractCartComponent{
 
-    public CartComponent(WebDriver driver) {
+    public SummaryCartComponent(WebDriver driver) {
         super(driver);
     }
 
     @Override
     protected By productPriceSel(){
-        return By.className("qty-input");
+        return By.className("qty");
     }
 
     @Override
     protected boolean isSummaryCartComponent(){
-        return false;
+        return true;
     }
 }
