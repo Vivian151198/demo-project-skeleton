@@ -6,14 +6,15 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import testdata.purchasing.ComputerDataObject;
-import testdata.purchasing.UserDataObject;
+import testdata.users.UserDataObject;
 import testdata.url.URL;
 import testflows.order.computer.BuyingComputerFlow;
 import testflows.order.computer.ComputerPriceType;
 import tests.BaseTest;
+import utils.data.CommonData;
 import utils.data.ComputerTestDataGenerator;
 
-public class BuildStandardComputerTest extends BaseTest implements ComputerPriceType {
+;public class BuildStandardComputerTest extends BaseTest implements ComputerPriceType {
 
     @Test(dataProvider = "standardCompsDataSet", description = "Buying a standard computer")
     @Description(value = "Using a set of utils.data with different computer specs and check total price in cart")
@@ -32,16 +33,18 @@ public class BuildStandardComputerTest extends BaseTest implements ComputerPrice
 
         //checkout
         //checkout
-        UserDataObject userDataObject = new UserDataObject();
-        userDataObject.setFirstName("Vivian");
-        userDataObject.setLastName("Vo");
-        userDataObject.setCountry("Viet Nam");
-        userDataObject.setCity("Ho Chi Minh");
-        userDataObject.setZipPostalCode("1511");
-        userDataObject.setPhoneNumber("0856383954");
-        userDataObject.setEmail("vanminho296@gmail.com");
-        userDataObject.setAddress1("12/4 Duong so 8");
-        System.out.println("==============STANDARD COMPUTER=======================");
+        UserDataObject userDataObject =
+                CommonData.buildUserDataObject("/src/test/java/testdata/users/DefaultCheckoutUser.json");
+        System.out.println(userDataObject.toString());
+//        userDataObject.setFirstName("Vivian");
+//        userDataObject.setLastName("Vo");
+//        userDataObject.setCountry("Viet Nam");
+//        userDataObject.setCity("Ho Chi Minh");
+//        userDataObject.setZipPostalCode("1511");
+//        userDataObject.setPhoneNumber("0856383954");
+//        userDataObject.setEmail("vanminho296@gmail.com");
+//        userDataObject.setAddress1("12/4 Duong so 8");
+//        System.out.println("==============STANDARD COMPUTER=======================");
         orderingComputerFlow.checkOut(userDataObject, computerDataObject);
     }
 
