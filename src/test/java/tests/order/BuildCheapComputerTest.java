@@ -6,11 +6,12 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import testdata.purchasing.ComputerDataObject;
-import testdata.purchasing.UserDataObject;
+import testdata.users.UserDataObject;
 import testdata.url.URL;
 import testflows.order.computer.BuyingComputerFlow;
 import testflows.order.computer.ComputerPriceType;
 import tests.BaseTest;
+import utils.data.CommonData;
 import utils.data.ComputerTestDataGenerator;
 
 public class BuildCheapComputerTest extends BaseTest implements ComputerPriceType {
@@ -31,16 +32,18 @@ public class BuildCheapComputerTest extends BaseTest implements ComputerPriceTyp
         orderingComputerFlow.verifyComputerAdded(computerDataObject, cheapComputerStartPrice);
 
         //checkout
-        UserDataObject userDataObject = new UserDataObject();
-        userDataObject.setFirstName("Van");
-        userDataObject.setLastName("Vo");
-        userDataObject.setCountry("United States");
-        userDataObject.setCity("New York");
-        userDataObject.setZipPostalCode("800");
-        userDataObject.setPhoneNumber("0982672");
-        userDataObject.setEmail("abc@gmail.com");
-        userDataObject.setAddress1("12/4 d8");
-        System.out.println("==============CHEAP COMPUTER=======================");
+        UserDataObject userDataObject =
+                CommonData.buildUserDataObject("/src/test/java/testdata/users/DefaultCheckoutUser.json");
+        System.out.println(userDataObject.toString());
+//        userDataObject.setFirstName("Van");
+//        userDataObject.setLastName("Vo");
+//        userDataObject.setCountry("United States");
+//        userDataObject.setCity("New York");
+//        userDataObject.setZipPostalCode("800");
+//        userDataObject.setPhoneNumber("0982672");
+//        userDataObject.setEmail("abc@gmail.com");
+//        userDataObject.setAddress1("12/4 d8");
+//        System.out.println("==============CHEAP COMPUTER=======================");
         orderingComputerFlow.checkOut(userDataObject, computerDataObject);
 
     }

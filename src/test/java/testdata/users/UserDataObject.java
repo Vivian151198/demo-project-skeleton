@@ -1,4 +1,4 @@
-package testdata.purchasing;
+package testdata.users;
 
 public class UserDataObject {
 

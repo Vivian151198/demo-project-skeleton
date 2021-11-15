@@ -1,6 +1,5 @@
 package testflows.order.computer;
 
-import com.sun.source.tree.AssertTree;
 import models.components.cart.AbstractCartComponent;
 import models.components.cart.CartComponent;
 import models.components.cart.SummaryCartComponent;
@@ -15,7 +14,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import testdata.purchasing.ComputerDataObject;
 import testdata.purchasing.ComputerSpec;
-import testdata.purchasing.UserDataObject;
+import testdata.users.UserDataObject;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
